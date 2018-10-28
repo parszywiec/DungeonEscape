@@ -5,11 +5,13 @@ using UnityEngine;
 public class PlayerAnimation : MonoBehaviour {
 
     private Animator animator; //handle to animator
+    private Animator swingAnimator;
 
 	// Use this for initialization
 	void Start () {
         animator = GetComponentInChildren<Animator>(); // InChildren - do zapamietania, obiekt w unity jest przypisany do Playera
-	}
+        swingAnimator = transform.GetChild(1).GetComponentInChildren<Animator>(); // transform.GetChild(1). pobierze obiekt dziecko z 2 nr z listy (0,1,2...)
+    }
 	
     public void Move(float move)
     {
@@ -31,6 +33,12 @@ public class PlayerAnimation : MonoBehaviour {
         //Debug.Log(jump);
         // nalezy na animacji jump wylaczyc loop'a, zeby wykonala sie tylko raz w locie
         animator.SetBool("Jumping", jump);
+    }
+
+    public void TriggerAttack()
+    {
+        animator.SetTrigger("Attack");
+        swingAnimator.SetTrigger("SwordEffect");
     }
 
 }

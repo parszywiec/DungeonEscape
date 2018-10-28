@@ -17,13 +17,15 @@ public class Player : MonoBehaviour {
     private bool resetJumpNeeded = false;
     [SerializeField] private float moveSpeed = 2.5f;     // szybkosc ruchu gracza
     private PlayerAnimation playerAnimation; //handle to playerAnimation
-    private SpriteRenderer spriteRenderer;
+    private SpriteRenderer spriteRenderer, spriteSwingRenderer;
 
     // Use this for initialization
     void Start() {
         rigid = GetComponent<Rigidbody2D>();        //assign handl of rigidbody
         playerAnimation = GetComponent<PlayerAnimation>(); //assign handl to playerAnimation
         spriteRenderer = GetComponentInChildren<SpriteRenderer>(); // InChildren !!!
+        spriteSwingRenderer = transform.GetChild(1).GetComponentInChildren<SpriteRenderer>(); // drugie dziecko z listy, a nastepnie pobieram komponent
+  
     }
 	
 	// Update is called once per frame
@@ -36,6 +38,10 @@ public class Player : MonoBehaviour {
         //druga opcja to pominiecie boola przez 'return type function'
         Movement_v2();
 
+        if (Input.GetMouseButtonDown(0) && IsGrounded()) // IsGrounded() == true -- rownoznaczne
+        {
+            playerAnimation.TriggerAttack();
+        }
     }
 
     void Movement_v2()
@@ -68,8 +74,31 @@ public class Player : MonoBehaviour {
     private void Flip(float horizontalInput)
     {
         // SpriteRenderer Flip x (zaznacz/odznacz) zwraca postac w lewo lub prawo (FLIP da... -- jest tez flipY)
-        if (horizontalInput < 0) spriteRenderer.flipX = true; // zaznacza ptaka
-        else if (horizontalInput > 0) spriteRenderer.flipX = false; // odznacza
+        if (horizontalInput < 0)
+        {
+            spriteRenderer.flipX = true; // zaznacza ptaka
+            FlipSwordSwingEffect(true);
+        }
+        else if (horizontalInput > 0)
+        {
+            spriteRenderer.flipX = false; // odznacza
+            FlipSwordSwingEffect(false);
+        }
+    }
+
+    private void FlipSwordSwingEffect(bool flipSwingEffect)
+    {
+        // odwraca animacje w wartosciach Y, w kursie dodnane tez X, ale nie wyglada dobrze
+        spriteSwingRenderer.flipY = flipSwingEffect;
+
+        // zmienia wartosci position x, wazne ze localPosition
+        Vector3 newPos = spriteSwingRenderer.transform.localPosition;
+        if(flipSwingEffect) newPos.x = -1.01f;
+        else newPos.x = 1.01f;
+        spriteSwingRenderer.transform.localPosition = newPos;
+
+
+
     }
 
     private bool IsGrounded()
