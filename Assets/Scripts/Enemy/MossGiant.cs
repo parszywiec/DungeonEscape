@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // dziedziczenie poprzez nazwe rodzica po ':' - tutaj Enemy jest rodzicem
-public class MossGiant : Enemy {
+// jak w javie jedno dziedziczenie, ile chcesz interfacow, jak widac interface po przecinku, implementacja instrukcji z interf jest obowiazkowa
+public class MossGiant : Enemy, IDamageable {
+    
+    public int Health { get; set; }
 
     // nadpisanie metody initializacyjnej, wywolanie jej przez base. (jest virtualna) i uzupelnienie o indywidualne wlasnosci giganta
     public override void Init()
@@ -11,9 +14,14 @@ public class MossGiant : Enemy {
         base.Init();
         speed += 0.1f;
         enemyIdle = "GiantIdle";
+
+        //Health = health; // mozna tez base.health , przypisze wartosc ze zmiennej dziedziczonej, do interfaceowej
     }
 
+    public void Damage()
+    {
 
+    }
 
 
 

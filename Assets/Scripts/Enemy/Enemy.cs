@@ -18,6 +18,11 @@ public abstract class Enemy : MonoBehaviour {
     protected SpriteRenderer spriteRendererChild;
     protected string goIdle, enemyIdle;
 
+    protected Player player; 
+    protected bool isHit = false;
+
+
+
     public virtual void Init()
     {
         speed = 1f;
@@ -28,6 +33,8 @@ public abstract class Enemy : MonoBehaviour {
         // beda inicjowane przez dzieci, wiec komponent odniesie sie do dziecka dziecka
         animator = GetComponentInChildren<Animator>();
         spriteRendererChild = GetComponentInChildren<SpriteRenderer>();
+        player = FindObjectOfType<Player>();
+        
     }
 
     // bez virtuala, a wiec dzieci nei beda mogly jej przeciazac
@@ -63,14 +70,21 @@ public abstract class Enemy : MonoBehaviour {
             currentTarget = pointA.position;
             animator.SetTrigger(goIdle);
         }
-        transform.position = Vector3.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
+        if (!isHit)
+            transform.position = Vector3.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
+
+        Debug.Log(transform.position - player.transform.position);
+        if (transform.position == player.transform.position) 
+        {
+
+        }
     }
+
+
+
 
     // vritual attack moze implementowany przez dzieci, badz zmieniony przez zmienienie u nich virtual na override
-    public virtual void Attack()
-    {
-
-    }
+    // public virtual void Attack() { }
 
     // MUSI! byc zaimplementowana, ale cialo tworza dzieci, z wlasnymi wlasnosciami
     // public abstract void Update();

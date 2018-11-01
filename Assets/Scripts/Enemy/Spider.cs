@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // notatki w MossGiantcie
-public class Spider : Enemy {
+public class Spider : Enemy, IDamageable {
+
+    public int Health { get; set; }
 
     public override void Init()
     {
@@ -12,5 +14,5 @@ public class Spider : Enemy {
         enemyIdle = "SpiderIdle";
     }
 
-
+    public void Damage() { }
 }
