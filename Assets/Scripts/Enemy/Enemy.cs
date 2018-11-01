@@ -45,6 +45,7 @@ public abstract class Enemy : MonoBehaviour {
 
     public virtual void Update()
     {
+        Combat();
         if (animator.GetCurrentAnimatorStateInfo(0).IsName(enemyIdle)) return;
         Movement();
     }
@@ -73,10 +74,18 @@ public abstract class Enemy : MonoBehaviour {
         if (!isHit)
             transform.position = Vector3.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
 
-        Debug.Log(transform.position - player.transform.position);
-        if (transform.position == player.transform.position) 
-        {
+    }
 
+    private void Combat()
+    {
+        Debug.Log(transform.position.x - player.transform.position.x);
+        //Debug.Log(transform.position - player.transform.position);
+        if (transform.position.x - player.transform.position.x > 2 || transform.position.x - player.transform.position.x < -2)
+        {
+            isHit = false;
+            //Debug.Log(animator.name);
+            Debug.Log(isHit);
+            animator.SetBool("InCombat", false);
         }
     }
 

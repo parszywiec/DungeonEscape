@@ -6,7 +6,7 @@ public class Skeleton : Enemy, IDamageable {
 
     public int Health { get; set; }
 
-    private bool canHitAgain;
+
 
     public override void Init()
     {
@@ -16,28 +16,22 @@ public class Skeleton : Enemy, IDamageable {
         enemyIdle = "SkeletonIdle";
 
         Health = base.health;
-        canHitAgain = true;
     }
 
     public void Damage() {
-        //Debug.Log("Damage!");
         Health--;
+        Debug.Log("Health = " + Health);
+
         animator.SetTrigger("WasHit");
         isHit = true;
         animator.SetBool("InCombat", true);
 
-        if (Health < 1 && canHitAgain)
+        if (Health < 1)
         {
             Destroy(gameObject);
-            canHitAgain = false;
-            StartCoroutine(HitReset());
         }
 
     }
 
-    IEnumerator HitReset()
-    {
-        yield return new WaitForSeconds(0.5f);
-        canHitAgain = true;
-    }
+
 }
