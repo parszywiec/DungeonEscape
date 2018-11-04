@@ -7,6 +7,7 @@ using UnityEngine;
 public class MossGiant : Enemy, IDamageable {
     
     public int Health { get; set; }
+    // [SerializeField] public GameObject diamond;
 
     // nadpisanie metody initializacyjnej, wywolanie jej przez base. (jest virtualna) i uzupelnienie o indywidualne wlasnosci giganta
     public override void Init()
@@ -27,6 +28,8 @@ public class MossGiant : Enemy, IDamageable {
 
     public void Damage()
     {
+        if (isDead) return;
+
         Health--;
         Debug.Log("Health = " + Health);
 
@@ -36,7 +39,24 @@ public class MossGiant : Enemy, IDamageable {
 
         if (Health < 1)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            isDead = true;
+            animator.SetTrigger("Death");
+
+            /*
+            // wersja spawnujaca kilka diamentow, w zakeznosci od ustawionej ilosci zmiennej gems
+            for (int i = 0; gems > i; i++)
+            {
+                float x = (i * 0.5f);
+                Instantiate(diamond, new Vector2(transform.position.x + x, transform.position.y - 0.4f), Quaternion.identity);
+            }
+            */
+            // alternatywnie, jeded diamnet, a zmienna gems podnosi jego wartosc, a wiec w obu wersjach otrzymamy ta sama liczbe punktow
+            GameObject thisDiamond = Instantiate(diamond, transform.position, Quaternion.identity) as GameObject;
+            thisDiamond.GetComponent<Diamond>().amountItGives *= base.gems;
+
+
+
         }
 
     }

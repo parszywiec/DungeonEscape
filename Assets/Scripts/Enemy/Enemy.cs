@@ -20,8 +20,9 @@ public abstract class Enemy : MonoBehaviour {
 
     protected Player player; 
     protected bool isHit = false;
+    protected bool isDead = false;
 
-
+    [SerializeField] public GameObject diamond;
 
     public virtual void Init()
     {
@@ -47,7 +48,8 @@ public abstract class Enemy : MonoBehaviour {
     {
         // Combat();
         // if (animator.GetCurrentAnimatorStateInfo(0).IsName(enemyIdle)) return;
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName(enemyIdle) && animator.GetBool("InCombat") == false)
+        if ((animator.GetCurrentAnimatorStateInfo(0).IsName(enemyIdle) && animator.GetBool("InCombat") == false)
+            || isDead)
             return;
         Movement();
     }
@@ -101,6 +103,8 @@ public abstract class Enemy : MonoBehaviour {
         else if (direction.x > 0 && animator.GetBool("InCombat"))
             spriteRendererChild.flipX = false;
     }
+
+
 
     /*
         private void Combat()

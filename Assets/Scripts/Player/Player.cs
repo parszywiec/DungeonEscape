@@ -19,6 +19,7 @@ public class Player : MonoBehaviour, IDamageable {
     private PlayerAnimation playerAnimation; //handle to playerAnimation
     private SpriteRenderer spriteRenderer, spriteSwingRenderer;
 
+    [SerializeField] public float amountOfDiamonds;
     public int Health { get; set; }
 
     // Use this for initialization
@@ -188,6 +189,9 @@ public class Player : MonoBehaviour, IDamageable {
     public void Damage()
     {
         Debug.Log("Player got damaged!");
+
+        //Destroy(gameObject);
+        //animator.SetTrigger("Death");
     }
 
 }
