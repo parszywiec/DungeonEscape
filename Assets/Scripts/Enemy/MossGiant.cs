@@ -13,16 +13,33 @@ public class MossGiant : Enemy, IDamageable {
     {
         base.Init();
         speed += 0.1f;
+        health = 5;
         enemyIdle = "GiantIdle";
 
-        //Health = health; // mozna tez base.health , przypisze wartosc ze zmiennej dziedziczonej, do interfaceowej
+        Health = health; // mozna tez base.health , przypisze wartosc ze zmiennej dziedziczonej, do interfaceowej
+    }
+
+    public override void Movement()
+    {
+        base.Movement();
+
     }
 
     public void Damage()
     {
+        Health--;
+        Debug.Log("Health = " + Health);
+
+        animator.SetTrigger("WasHit");
+        isHit = true;
+        animator.SetBool("InCombat", true);
+
+        if (Health < 1)
+        {
+            Destroy(gameObject);
+        }
 
     }
-
 
 
 

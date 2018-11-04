@@ -33,7 +33,7 @@ public abstract class Enemy : MonoBehaviour {
         // beda inicjowane przez dzieci, wiec komponent odniesie sie do dziecka dziecka
         animator = GetComponentInChildren<Animator>();
         spriteRendererChild = GetComponentInChildren<SpriteRenderer>();
-        player = FindObjectOfType<Player>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>(); ; // FindObjectOfType<Player>();
         
     }
 
@@ -45,8 +45,10 @@ public abstract class Enemy : MonoBehaviour {
 
     public virtual void Update()
     {
-        Combat();
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName(enemyIdle)) return;
+        // Combat();
+        // if (animator.GetCurrentAnimatorStateInfo(0).IsName(enemyIdle)) return;
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName(enemyIdle) && animator.GetBool("InCombat") == false)
+            return;
         Movement();
     }
 
@@ -74,21 +76,46 @@ public abstract class Enemy : MonoBehaviour {
         if (!isHit)
             transform.position = Vector3.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
 
+        CombatMode();
+
     }
 
-    private void Combat()
+    private void CombatMode()
     {
-        Debug.Log(transform.position.x - player.transform.position.x);
-        //Debug.Log(transform.position - player.transform.position);
-        if (transform.position.x - player.transform.position.x > 2 || transform.position.x - player.transform.position.x < -2)
+        // check for distance between player and enemy
+        // Vector3.Distance() - wazniasta metoda!!!
+        // float distance = Vector3.Distance(transform.position, player.transform.position); 
+        float distance = Vector3.Distance(transform.localPosition, player.transform.localPosition);                               // <<-- tuuuu!
+        //Debug.Log("Distance: " + distance + " for " + transform.name);
+        if (distance > 2.0f)
         {
             isHit = false;
-            //Debug.Log(animator.name);
-            Debug.Log(isHit);
             animator.SetBool("InCombat", false);
         }
+
+        // fajne to
+        Vector3 direction = player.transform.localPosition - transform.localPosition;
+        //Debug.Log("Side: " + direction.x);
+        if (direction.x < 0 && animator.GetBool("InCombat"))
+            spriteRendererChild.flipX = true;
+        else if (direction.x > 0 && animator.GetBool("InCombat"))
+            spriteRendererChild.flipX = false;
     }
 
+    /*
+        private void Combat()
+        {
+            Debug.Log(transform.position.x - player.transform.position.x);
+            //Debug.Log(transform.position - player.transform.position);
+            if (transform.position.x - player.transform.position.x > 2 || transform.position.x - player.transform.position.x < -2)
+            {
+                isHit = false;
+                //Debug.Log(animator.name);
+                Debug.Log(isHit);
+                animator.SetBool("InCombat", false);
+            }
+        }
+    */
 
 
 

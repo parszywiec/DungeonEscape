@@ -18,6 +18,12 @@ public class Skeleton : Enemy, IDamageable {
         Health = base.health;
     }
 
+    public override void Movement()
+    {
+        base.Movement();
+
+    }
+
     public void Damage() {
         Health--;
         Debug.Log("Health = " + Health);

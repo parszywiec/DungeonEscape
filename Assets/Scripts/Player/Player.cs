@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour, IDamageable {
 
     // zmienne miedzy innymi do v1 Movement
     // rozwiazanie do opcji pierwszej - skakania
@@ -18,6 +18,8 @@ public class Player : MonoBehaviour {
     [SerializeField] private float moveSpeed = 2.5f;     // szybkosc ruchu gracza
     private PlayerAnimation playerAnimation; //handle to playerAnimation
     private SpriteRenderer spriteRenderer, spriteSwingRenderer;
+
+    public int Health { get; set; }
 
     // Use this for initialization
     void Start() {
@@ -181,6 +183,11 @@ public class Player : MonoBehaviour {
         resetJumpNeeded = true; //dodane dla v2 Movement, v1 dzialalo poprawnie bez tego, wciaz bedzie dzialac, ale podwajamy kod(tyle)
         yield return new WaitForSeconds(0.1f);
         resetJumpNeeded = false;
+    }
+
+    public void Damage()
+    {
+        Debug.Log("Player got damaged!");
     }
 
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttack : MonoBehaviour {
+public class Attack : MonoBehaviour {
 
     private bool canHitAgain = true;
 

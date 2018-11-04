@@ -14,5 +14,10 @@ public class Spider : Enemy, IDamageable {
         enemyIdle = "SpiderIdle";
     }
 
+    public override void Movement()
+    {
+        
+    }
+
     public void Damage() { }
 }
