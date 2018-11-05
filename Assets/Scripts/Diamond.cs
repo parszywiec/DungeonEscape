@@ -5,7 +5,7 @@ using UnityEngine;
 public class Diamond : MonoBehaviour {
 
     Player player;
-    [SerializeField] public float amountItGives = 10f;
+    [SerializeField] public float amountItGives = 1f;
 
     public void OnTriggerEnter2D(Collider2D collision)
     {

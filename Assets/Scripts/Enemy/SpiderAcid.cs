@@ -14,7 +14,7 @@ public class SpiderAcid : MonoBehaviour {
 
     public void Fire()
     {
-        Debug.Log("AcidPewPew");
+        //Debug.Log("AcidPewPew");
         spider.Attack();
     }
 }
