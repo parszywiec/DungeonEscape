@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour {
 
     private static UIManager instance;
+    [SerializeField] List<Image> lifeUnits;
+    // public Image[] lifeUnits; // alternatywnie do listy
 
     public static UIManager Instance
     {
@@ -21,6 +23,7 @@ public class UIManager : MonoBehaviour {
 
     public Text playerGemCountText;
     public Image selectionImage;
+    public Text gemCountText;
 
     public void OpenShop(float gemCount)
     {
@@ -32,6 +35,29 @@ public class UIManager : MonoBehaviour {
         selectionImage.rectTransform.anchoredPosition = new Vector2(selectionImage.rectTransform.anchoredPosition.x, yPos);
     }
 
+    public void UpdateGemCount(float count)
+    {
+        gemCountText.text = ""+count;
+    }
+
+    public void UpdateLives(int livesRemaining)
+    {
+        if (livesRemaining >=0)
+            lifeUnits[livesRemaining].enabled = false;
+
+        /*
+        // kursowe rozwiazanie
+        for (int i=0; i < livesRemaining; i++)
+        {
+            // do nothing till we hit max
+            if (i == livesRemaining)
+            {
+                // hide this one
+                lifeUnits[i].enabled = false;
+            }
+        }
+        */
+    }
 
     private void Awake()
     {

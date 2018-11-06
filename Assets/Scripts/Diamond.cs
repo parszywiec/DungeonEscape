@@ -14,7 +14,8 @@ public class Diamond : MonoBehaviour {
         // if (collision.tag == "Player")  // alternatywne rozwiazanie
         if (collision.name == player.name)
         {
-            player.amountOfDiamonds += amountItGives;
+            player.AddGems(amountItGives);
+            //player.amountOfDiamonds += amountItGives;
             Destroy(this.gameObject);
         }
 

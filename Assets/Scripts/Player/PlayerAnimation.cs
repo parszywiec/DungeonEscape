@@ -41,4 +41,9 @@ public class PlayerAnimation : MonoBehaviour {
         swingAnimator.SetTrigger("SwordEffect");
     }
 
+    public void Death()
+    {
+        animator.SetTrigger("Death");
+    }
+
 }

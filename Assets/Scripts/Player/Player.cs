@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// inputy dla androida
+using UnityStandardAssets.CrossPlatformInput;
 
 public class Player : MonoBehaviour, IDamageable {
 
@@ -21,6 +23,7 @@ public class Player : MonoBehaviour, IDamageable {
 
     [SerializeField] public float amountOfDiamonds;
     public int Health { get; set; }
+    private bool isDead = false;
 
     // Use this for initialization
     void Start() {
@@ -28,6 +31,8 @@ public class Player : MonoBehaviour, IDamageable {
         playerAnimation = GetComponent<PlayerAnimation>(); //assign handl to playerAnimation
         spriteRenderer = GetComponentInChildren<SpriteRenderer>(); // InChildren !!!
         spriteSwingRenderer = transform.GetChild(1).GetComponentInChildren<SpriteRenderer>(); // drugie dziecko z listy, a nastepnie pobieram komponent
+        AddGems(0);
+        Health = 4;
   
     }
 	
@@ -41,7 +46,8 @@ public class Player : MonoBehaviour, IDamageable {
         //druga opcja to pominiecie boola przez 'return type function'
         Movement_v2();
 
-        if (Input.GetMouseButtonDown(0) && IsGrounded()) // IsGrounded() == true -- rownoznaczne
+        // if (Input.GetMouseButtonDown(0) && IsGrounded()) // IsGrounded() == true -- rownoznaczne
+        if ((Input.GetMouseButtonDown(0) || CrossPlatformInputManager.GetButton("A_Button")) && IsGrounded())
         {
             playerAnimation.TriggerAttack();
         }
@@ -53,11 +59,13 @@ public class Player : MonoBehaviour, IDamageable {
 
         // horizontal input for left/right
         // GetAxis z dopiskiem Raw zmienia wartosci inputa na -1, 0, 1 , zwiekszy to plynnosc ruchu
-        float horizontalInput = Input.GetAxisRaw("Horizontal");// * Time.deltaTime * moveSpeed;
+        float horizontalInput = Input.GetAxisRaw("Horizontal"); // pod pc   // * Time.deltaTime * moveSpeed; 
+        //float horizontalInput = CrossPlatformInputManager.GetAxis("Horizontal"); // pod andro 
 
         Flip(horizontalInput);
 
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded()) //spelnienie drugiej czesci if'a jesli true, krotszy zapis
+        // if (Input.GetKeyDown(KeyCode.Space) && IsGrounded()) //spelnienie drugiej czesci if'a jesli true, krotszy zapis
+        if ((Input.GetKeyDown(KeyCode.Space) || CrossPlatformInputManager.GetButton("B_Button")) && IsGrounded())
         {
             // wiecej commentow w v1
             rigid.velocity = new Vector2(rigid.velocity.x, jumpForce);
@@ -188,10 +196,25 @@ public class Player : MonoBehaviour, IDamageable {
 
     public void Damage()
     {
+        if (isDead) return;
         Debug.Log("Player got damaged!");
-
+        Health--;
+        Debug.Log("Player life remain = " + Health);
+        //FindObjectOfType<UIManager>().UpdateLives(Health); // dzialajace rozwiazanie
+        UIManager.Instance.UpdateLives(Health);
         //Destroy(gameObject);
-        //animator.SetTrigger("Death");
+        if(Health < 1)
+        {
+            isDead = true;
+            playerAnimation.Death();
+        }
+
+    }
+
+    public void AddGems(float amount)
+    {
+        amountOfDiamonds += amount;
+        UIManager.Instance.UpdateGemCount(amountOfDiamonds);
     }
 
 }

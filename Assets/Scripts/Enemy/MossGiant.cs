@@ -31,7 +31,7 @@ public class MossGiant : Enemy, IDamageable {
         if (isDead) return;
 
         Health--;
-        Debug.Log("Health = " + Health);
+        Debug.Log("Giant Health = " + Health);
 
         animator.SetTrigger("WasHit");
         isHit = true;
