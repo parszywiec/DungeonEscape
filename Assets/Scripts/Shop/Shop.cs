@@ -68,6 +68,7 @@ public class Shop : MonoBehaviour {
             // award item
             player.amountOfDiamonds -= currentItemCost;
             UIManager.Instance.OpenShop(player.amountOfDiamonds);
+            UIManager.Instance.UpdateGemCount(player.amountOfDiamonds);
         } else
         {
             Debug.Log("not enough gems, closing shop");

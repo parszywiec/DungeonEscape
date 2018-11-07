@@ -19,8 +19,13 @@ public class GameManager : MonoBehaviour {
 
     public bool HasKeyToCastle { get; set; }
 
+    // wedle prowadzacego kurs, gameManager jako jedyny manager moze miec dostep do class nie managerskich, w tym wypadku do playera
+    public Player Player { get; private set; }
+
     private void Awake()
     {
         instance = this;
+        // przypisanie playera
+        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 }

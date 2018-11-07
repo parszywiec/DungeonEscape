@@ -59,8 +59,8 @@ public class Player : MonoBehaviour, IDamageable {
 
         // horizontal input for left/right
         // GetAxis z dopiskiem Raw zmienia wartosci inputa na -1, 0, 1 , zwiekszy to plynnosc ruchu
-        float horizontalInput = Input.GetAxisRaw("Horizontal"); // pod pc   // * Time.deltaTime * moveSpeed; 
-        //float horizontalInput = CrossPlatformInputManager.GetAxis("Horizontal"); // pod andro 
+        //float horizontalInput = Input.GetAxisRaw("Horizontal"); // pod pc   // * Time.deltaTime * moveSpeed; 
+        float horizontalInput = CrossPlatformInputManager.GetAxis("Horizontal"); // pod andro 
 
         Flip(horizontalInput);
 
@@ -216,5 +216,13 @@ public class Player : MonoBehaviour, IDamageable {
         amountOfDiamonds += amount;
         UIManager.Instance.UpdateGemCount(amountOfDiamonds);
     }
-
+    /*
+    // w wersji kursowej nie ta metoda nie jest potrzebna
+    public void AddRewardedGems()
+    {
+        amountOfDiamonds += 100f;
+        UIManager.Instance.UpdateGemCount(amountOfDiamonds);
+        UIManager.Instance.OpenShop(amountOfDiamonds);
+    }
+    */
 }

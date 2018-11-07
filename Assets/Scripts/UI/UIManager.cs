@@ -25,19 +25,20 @@ public class UIManager : MonoBehaviour {
     public Image selectionImage;
     public Text gemCountText;
 
+
+    // dwie ponizsze metody sa do polaczenia, pewnie skopiowac z pierwszej do drugiej i zmienic wszystkie wywolania na druga
     public void OpenShop(float gemCount)
     {
         playerGemCountText.text = ""+gemCount+"G";
+    }
+    public void UpdateGemCount(float count)
+    {
+        gemCountText.text = ""+count;
     }
 
     public void UpdateShopSelection(int yPos)
     {
         selectionImage.rectTransform.anchoredPosition = new Vector2(selectionImage.rectTransform.anchoredPosition.x, yPos);
-    }
-
-    public void UpdateGemCount(float count)
-    {
-        gemCountText.text = ""+count;
     }
 
     public void UpdateLives(int livesRemaining)
